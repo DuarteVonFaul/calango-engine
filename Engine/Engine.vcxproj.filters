@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Arquivos de Origem">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Arquivos de Cabeçalho">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Arquivos de Recurso">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Arquivos de Cabeçalho\components">
+      <UniqueIdentifier>{ae0d13a7-f0bf-4044-8e39-c8b217246154}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Arquivos de Cabeçalho\entitys">
+      <UniqueIdentifier>{723cd501-210a-4380-a961-bad054292e5f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Arquivos de Cabeçalho\general">
+      <UniqueIdentifier>{0fb5a232-2ee1-4b1c-9132-b836d1d2c20b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Arquivos de Origem\components">
+      <UniqueIdentifier>{fe224802-d9b7-41ac-a151-cbd304ed11d4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Arquivos de Origem\entitys">
+      <UniqueIdentifier>{8c888d63-12ac-4be5-af69-1fc8a43e60c9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Arquivos de Origem\general">
+      <UniqueIdentifier>{b8ec4243-6e06-48cb-974e-8670c4bbacf6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Arquivos de Teste">
+      <UniqueIdentifier>{84af5f27-8418-473b-ac26-c3ff02facbe5}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>Arquivos de Origem</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
