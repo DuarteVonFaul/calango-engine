@@ -39,5 +39,13 @@
     <ClCompile Include="main.cpp">
       <Filter>Arquivos de Origem</Filter>
     </ClCompile>
+    <ClCompile Include="Window.cpp">
+      <Filter>Arquivos de Origem\general</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Window.hpp">
+      <Filter>Arquivos de Cabeçalho\general</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
