@@ -34,6 +34,12 @@
     <Filter Include="Arquivos de Teste">
       <UniqueIdentifier>{84af5f27-8418-473b-ac26-c3ff02facbe5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Arquivos de Cabeçalho\properties">
+      <UniqueIdentifier>{89e10b95-aaca-4813-a235-b4f1e5d685a7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Arquivos de Origem\properties">
+      <UniqueIdentifier>{be08a156-cb9e-496a-ad67-9b9b8064f788}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -42,10 +48,28 @@
     <ClCompile Include="Window.cpp">
       <Filter>Arquivos de Origem\general</Filter>
     </ClCompile>
+    <ClCompile Include="Scene.cpp">
+      <Filter>Arquivos de Origem\general</Filter>
+    </ClCompile>
+    <ClCompile Include="Vector2D.cpp">
+      <Filter>Arquivos de Origem\properties</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Window.hpp">
       <Filter>Arquivos de Cabeçalho\general</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene.hpp">
+      <Filter>Arquivos de Cabeçalho\general</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity.hpp">
+      <Filter>Arquivos de Cabeçalho\general</Filter>
+    </ClInclude>
+    <ClInclude Include="Component.hpp">
+      <Filter>Arquivos de Cabeçalho\general</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector2D.hpp">
+      <Filter>Arquivos de Cabeçalho\properties</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

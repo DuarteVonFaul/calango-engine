@@ -5,6 +5,10 @@
 Window::Window(int width, int height, std::string title) :
     window(new sf::RenderWindow(sf::VideoMode(width, height), title))
 {};
+
+Window::~Window() {
+    delete window;
+}
 void Window::start() {
 
     //Lista de Elementos
@@ -26,6 +30,7 @@ void Window::start() {
         /*this->window->draw(leftPaddle);
         this->window->draw(rightPaddle);
         this->window->draw(ball);*/
+        this->window->draw()
 
 
         this->window->display();
