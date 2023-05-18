@@ -4,6 +4,11 @@ Vector2D::Vector2D(float X, float Y) {
 	this->x = X;
 	this->y = Y;
 }
+
+Vector2D::Vector2D() {
+	this->x = 0;
+	this->y = 0;
+}
 float Vector2D::getX() {
 	return this->x;
 }

@@ -40,7 +40,6 @@
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
@@ -130,15 +129,21 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Area2D.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Retangle.cpp" />
     <ClCompile Include="Scene.cpp" />
+    <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="Vector2D.cpp" />
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Area2D.h" />
     <ClInclude Include="Component.hpp" />
     <ClInclude Include="Entity.hpp" />
+    <ClInclude Include="Retangle.hpp" />
     <ClInclude Include="Scene.hpp" />
+    <ClInclude Include="Sprite.hpp" />
     <ClInclude Include="Vector2D.hpp" />
     <ClInclude Include="Window.hpp" />
   </ItemGroup>

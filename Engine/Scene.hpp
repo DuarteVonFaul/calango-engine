@@ -2,6 +2,7 @@
 #include <map>
 #include <string>
 #include "Entity.hpp"
+#include <list>
 
 
 class Scene {
@@ -12,9 +13,10 @@ private:
 
 
 public:
-	virtual void update() = 0;
-	virtual void tick() = 0;
-	void addChild(std::string, Entity&);
+	void update();
+	//virtual void tick() = 0;
+	void addChild(std::string, Entity*);
 	Entity* getEntity(std::string);
+	std::list<Entity*> getEntitys() const;
 
 };

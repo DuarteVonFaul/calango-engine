@@ -54,6 +54,15 @@
     <ClCompile Include="Vector2D.cpp">
       <Filter>Arquivos de Origem\properties</Filter>
     </ClCompile>
+    <ClCompile Include="Retangle.cpp">
+      <Filter>Arquivos de Origem\components</Filter>
+    </ClCompile>
+    <ClCompile Include="Area2D.cpp">
+      <Filter>Arquivos de Origem\entitys</Filter>
+    </ClCompile>
+    <ClCompile Include="Sprite.cpp">
+      <Filter>Arquivos de Origem\components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Window.hpp">
@@ -70,6 +79,15 @@
     </ClInclude>
     <ClInclude Include="Vector2D.hpp">
       <Filter>Arquivos de Cabeçalho\properties</Filter>
+    </ClInclude>
+    <ClInclude Include="Retangle.hpp">
+      <Filter>Arquivos de Cabeçalho\components</Filter>
+    </ClInclude>
+    <ClInclude Include="Area2D.h">
+      <Filter>Arquivos de Cabeçalho\entitys</Filter>
+    </ClInclude>
+    <ClInclude Include="Sprite.hpp">
+      <Filter>Arquivos de Cabeçalho\components</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

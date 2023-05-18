@@ -7,6 +7,7 @@ private:
 public:
 
 	Vector2D(float, float);
+	Vector2D();
 
 	float getX();
 	float getY();

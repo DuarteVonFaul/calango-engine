@@ -1,2 +1,18 @@
-﻿  main.cpp
+﻿  Area2D.cpp
+  Retangle.cpp
+C:\Users\Estagiario-03\Desktop\GitHub\aqui\calango-engine\Engine\Retangle.cpp(6,53): warning C4244: 'argumento': conversão de 'int' para 'T', possível perda de dados
+          with
+          [
+              T=float
+          ]
+C:\Users\Estagiario-03\Desktop\GitHub\aqui\calango-engine\Engine\Retangle.cpp(6,46): warning C4244: 'argumento': conversão de 'int' para 'T', possível perda de dados
+          with
+          [
+              T=float
+          ]
+  Scene.cpp
+  Sprite.cpp
+  Window.cpp
+  main.cpp
+  Gerando Código...
   Engine.vcxproj -> C:\Users\Estagiario-03\Desktop\GitHub\aqui\calango-engine\Engine\x64\Debug\Engine.exe
