@@ -6,6 +6,7 @@ class Sprite : public Component {
 private:
 
 	sf::Sprite* shape;
+	sf::Texture* texture;
 	Vector2D pos;
 
 public:

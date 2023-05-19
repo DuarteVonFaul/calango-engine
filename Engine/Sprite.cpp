@@ -6,9 +6,11 @@ Sprite::Sprite(std::string path, Vector2D first_pos) {
 
 
 	shape = new sf::Sprite();
-	sf::Texture texture;
-	if (texture.loadFromFile(path)) {
-		shape->setTexture(texture);
+	texture = new sf::Texture();
+	sf::IntRect frameRect(0, 0, 52, 52);
+	if (this->texture->loadFromFile(path)) {
+		shape->setTexture(*texture);
+		shape->setTextureRect(frameRect);
 	}
 	pos = first_pos;
 	shape->setPosition(pos.getX(), pos.getY());

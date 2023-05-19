@@ -1,8 +1,7 @@
-#include "Window.hpp"
-#include "Area2D.h"
-#include "Retangle.hpp"
-#include "Sprite.hpp"
+#include "Engine.hpp"
 #include <iostream>
+
+
 
 
 class Player : public Area2D {
@@ -13,7 +12,8 @@ private:
 public:
 
     Player(Vector2D pos) : Area2D(pos) {
-        addChildren("head", new Retangle(20, 20, Vector2D(0, 0)));
+        addChildren("head", new Retangle(20, 20, Vector2D(100, 100)));
+        addChildren("body", new Sprite("Player.png", Vector2D(100, 100)));
     };
 
     void update() {

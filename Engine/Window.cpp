@@ -22,20 +22,31 @@ void Window::start() {
         auto startTime = std::chrono::steady_clock::now();
 
         //Logica do Jogo
+
+        sf::Sprite shape;
+        sf::Texture texture;
+        if (texture.loadFromFile("Player.png")) {
+            shape.setTexture(texture);
+        }
+        shape.setPosition(100, 100);
+
+
         sf::Event event;
         while (this->window->pollEvent(event)) {
             if (event.type == sf::Event::Closed)
                 this->window->close();
         }
-
-        focus->update();
+        if(focus != NULL){
+            focus->update();
+        }
+        
 
         this->window->clear(sf::Color::Black);
 
         if (focus != NULL) {
             for (const auto& pair : focus->getEntitys()) {
                 for (const auto& comp : pair->getChildren()) {
-                    this->window->draw(*comp->getElement());
+                    this->window->draw((*comp->getElement()));
                 }
             }
         }

@@ -40,6 +40,9 @@
     <Filter Include="Arquivos de Origem\properties">
       <UniqueIdentifier>{be08a156-cb9e-496a-ad67-9b9b8064f788}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Arquivos de Origem\macros">
+      <UniqueIdentifier>{3026bfc8-b919-4228-b5b3-21e6938baa42}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -89,5 +92,11 @@
     <ClInclude Include="Sprite.hpp">
       <Filter>Arquivos de Cabeçalho\components</Filter>
     </ClInclude>
+    <ClInclude Include="Engine.hpp">
+      <Filter>Arquivos de Origem\macros</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="cpp.hint" />
   </ItemGroup>
 </Project>
