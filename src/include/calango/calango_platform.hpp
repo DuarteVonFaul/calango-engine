@@ -36,7 +36,7 @@
      struct CALANGO_PLATFORM_API Platform final
      {
 
-     }
+     };
   } 
 
 #endif  //CALANGO_PLATFORM_H
