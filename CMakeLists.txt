@@ -67,7 +67,7 @@ target_include_directories(calango_platform PUBLIC "${SOURCE_PATH}/include")
 target_include_directories(calango_platform PUBLIC "${SOURCE_PATH}/include/calango")
 target_include_directories(calango_platform PUBLIC ${IMGUI_SOURCE_DIR})
 target_compile_options(calango_platform PRIVATE -DCALANGO_PLATFORM_IMPLEMENTATION)
-target_link_libraries(calango_platform PRIVATE OpenGL::GL glfw GLEW::GLEW gdi32 glu32.lib)
+target_link_libraries(calango_platform PRIVATE OpenGL::GL glfw gdi32 glu32.lib)
 
 
 #

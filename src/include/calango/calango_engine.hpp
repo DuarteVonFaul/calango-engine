@@ -18,9 +18,9 @@ namespace clg
   struct CALANGO_ENGINE_API Engine final
   {
 
-    ScreenBuilder window;
+    ScreenBuilder screenBuilder;
     
-    
+
     Engine();
     ~Engine();
   };

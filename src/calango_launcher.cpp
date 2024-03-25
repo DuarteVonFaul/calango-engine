@@ -1,4 +1,6 @@
 #include <calango/calango.hpp>
+#include <calango/calango_engine.hpp>
+#include <calango/calango_platform.hpp>
 
 namespace clg
 {
@@ -6,6 +8,11 @@ namespace clg
   {
     int calangoMain(int argc, char** argv)
     {
+
+      Engine engine;
+      ScreenBuilder sBuild = engine.screenBuilder;
+      sBuild.showMensage("Testando mensagem");
+      
       return 0;
     }
   }
