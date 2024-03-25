@@ -11,10 +11,40 @@ namespace clg
 
       Engine engine;
       ScreenBuilder sBuild = engine.screenBuilder;
-      sBuild.showMensage("Testando mensagem");
+      ScreenManager sManager = engine.screenManager;
+      Draw draw = Draw(1);
+      GLFWwindow* window = sBuild.createWindow(1280,720,"GameEngine");
       
+
+      if(! sBuild.initOpenGL(window)){
+        // if(!sManager.initOpenGL(window)){
+          // return 1;
+        // }
+        return 1;
+      }
+      sBuild.clearColorWindow();
+
+      while(!sBuild.getWindowCloseFlag(window))
+      {
+        sBuild.updateWindowEvents(window);
+
+        // sManager.startRender();
+        // sManager.newScreen("TEstando", clg::vec2(0,0), clg::vec2(500,500));
+        // sManager.endScreen();
+        // sManager.endRender();
+
+        sBuild.windowProjection(window);
+        
+        sBuild.clearWindow(window);
+        draw.drawScreen(window);
+      }
+      
+      sManager.destroyScreen();
+      sBuild.destroyWindow(window);
       return 0;
     }
+
+    
   }
 }
 

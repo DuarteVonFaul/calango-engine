@@ -11,9 +11,9 @@
     #include <GL/GLU.h>
     #include <calango/primitives.hpp>
     #include <calango/color.hpp>
-    #include "../imgui/imgui.h"
-    #include "../imgui/imgui_impl_glfw.h"
-    #include "../imgui/imgui_impl_opengl3.h"
+    #include "../lib/imgui/imgui.h"
+    #include "../lib/imgui/imgui_impl_glfw.h"
+    #include "../lib/imgui/imgui_impl_opengl3.h"
     #define CALANGO_PLATFORM_WINDOWS
   #elif __linux__
     #include <stdlib.h>
@@ -38,6 +38,11 @@
 
   namespace clg
   {
+
+    enum struct AppTheme {
+      Dark,
+      Light
+    };
 
     struct CALANGO_PLATFORM_API Draw final{
       Draw(int);
@@ -85,14 +90,24 @@
     //Contexto OpenGL Criar SubTelas com ImGUI
     struct CALANGO_PLATFORM_API ScreenManager final
     {
+        AppTheme currentTheme;
+        char* glsl_version;
         ScreenManager();
+        void ToggleAppTheme();
+        bool initOpenGL(GLFWwindow* window);
+        void destroyScreen();
 
+        void startRender();
+        void endRender();
 
+        void newScreen(const char* title,clg::vec2 pos, clg::vec2 size);
+        void endScreen();
     };
 
 
-    
 
-  } 
+
+};
+
 
 #endif  //CALANGO_PLATFORM_H

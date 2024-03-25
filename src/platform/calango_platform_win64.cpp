@@ -50,7 +50,7 @@ namespace clg
 
     void clg::ScreenBuilder::clearColorWindow(vec4 clear_color){
         glClearColor(clear_color.x, clear_color.y, clear_color.z, clear_color.w);
-        glEnable(GL_DEPTH_TEST);
+        // glEnable(GL_DEPTH_TEST);
     }
 
     void clg::ScreenBuilder::windowProjection(GLFWwindow* window)
@@ -86,36 +86,37 @@ namespace clg
     // Funções inerente a desenhar objetos na tela
     //
 
-    void Draw::newDraw(){
+    void clg::Draw::newDraw(){
         glPushMatrix();
     }
-    void Draw::endDraw(){
+    
+    void clg::Draw::endDraw(){
         glPopMatrix();
     }
 
-    Draw::Draw(int amount){
+    clg::Draw::Draw(int amount){
         this->amount = amount;
         glGenLists(amount);
     }
 
-    void Draw::drawIndetity(){
+    void clg::Draw::drawIndetity(){
         glMatrixMode(GL_MODELVIEW);
         glLoadIdentity();
     }
 
-    void Draw::translate(clg::vec3 vector){
+    void clg::Draw::translate(clg::vec3 vector){
         glTranslatef(vector.x, vector.y, vector.z);
     }
 
-    void Draw::Rotate(clg::vec4 vector){
+    void clg::Draw::Rotate(clg::vec4 vector){
         glRotatef(vector.x,vector.y,vector.z,vector.w);
     }
 
-    void Draw::Scale(clg::vec3 vector){
+    void clg::Draw::Scale(clg::vec3 vector){
         glScalef(vector.x,vector.y,vector.z);
     }
 
-    void Draw::Triangle(unsigned int id, clg::vec3 p1,clg::vec3 p2,clg::vec3 p3, clg::color color){
+    void clg::Draw::Triangle(unsigned int id, clg::vec3 p1,clg::vec3 p2,clg::vec3 p3, clg::color color){
         glNewList(id,GL_COMPILE);
             glColor3fv(color);
             glBegin(GL_TRIANGLES);
@@ -126,7 +127,7 @@ namespace clg
         glEndList();
     }
 
-    void Draw::Rect(unsigned int id, clg::vec3 p1,clg::vec3 p2,clg::vec3 p3,clg::vec3 p4, clg::color color){
+    void clg::Draw::Rect(unsigned int id, clg::vec3 p1,clg::vec3 p2,clg::vec3 p3,clg::vec3 p4, clg::color color){
         glNewList(id,GL_COMPILE);
             glColor3fv(color);
             glBegin(GL_QUADS);
@@ -138,7 +139,7 @@ namespace clg
         glEndList();
     }
 
-    void Draw::Rect(clg::vec3 p1,clg::vec3 p2,clg::vec3 p3,clg::vec3 p4, clg::color color){
+    void clg::Draw::Rect(clg::vec3 p1,clg::vec3 p2,clg::vec3 p3,clg::vec3 p4, clg::color color){
         glColor3fv(color);
         glBegin(GL_QUADS);
             glVertex3fv(&p1.x);
@@ -148,7 +149,7 @@ namespace clg
         glEnd();
     }
 
-    void Draw::orientationPlane(unsigned int id, bool _2D ){
+    void clg::Draw::orientationPlane(unsigned int id, bool _2D ){
         float L = 500.0;
         float y = -0.5;
 
@@ -182,19 +183,19 @@ namespace clg
         
     }
 
-    void Draw::getInstance(int id){
+    void clg::Draw::getInstance(int id){
         glCallList(id);
     }
 
-    void Draw::deleteInstace(int id, int interval){
+    void clg::Draw::deleteInstace(int id, int interval){
         glDeleteLists(id,interval);
     }
 
-    void Draw::deleteAllInstances(){
+    void clg::Draw::deleteAllInstances(){
         glDeleteLists(1,this->amount);
     }
 
-    void Draw::Cube(unsigned int id, float s){
+    void clg::Draw::Cube(unsigned int id, float s){
 
         float d = s/2.0;
 
@@ -220,7 +221,7 @@ namespace clg
 
     }
 
-    void Draw::Sphere(unsigned int id, GLfloat radius, GLuint nStacks, GLuint nSectores, clg::color color, bool X_RAY_MODE){
+    void clg::Draw::Sphere(unsigned int id, GLfloat radius, GLuint nStacks, GLuint nSectores, clg::color color, bool X_RAY_MODE){
 
         std::vector<std::vector<GLuint>> indices;
 
@@ -290,12 +291,98 @@ namespace clg
         glEndList();
     }
 
-    void Draw::drawScreen(GLFWwindow* window){
+    void clg::Draw::drawScreen(GLFWwindow* window){
         glfwSwapBuffers(window);
     }
 
     
+    //
+    // Funções inerente a GUI da Tela
+    //
 
+    clg::ScreenManager::ScreenManager(){
+        // Decide GL+GLSL versions
+        this->currentTheme = clg::AppTheme::Dark;
+        #if defined(IMGUI_IMPL_OPENGL_ES2)
+            // GL ES 2.0 + GLSL 100
+            this->glsl_version = "#version 100";
+            glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 2);
+            glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
+            glfwWindowHint(GLFW_CLIENT_API, GLFW_OPENGL_ES_API);
+        #elif defined(__APPLE__)
+            // GL 3.2 + GLSL 150
+            this->glsl_version = "#version 150";
+            glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+            glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
+            glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);  // 3.2+ only
+            glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);            // Required on Mac
+        #else
+            // GL 3.0 + GLSL 130
+            this->glsl_version = "#version 130";
+            glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+            glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
+            //glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);  // 3.2+ only
+            //glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);            // 3.0+ only
+        #endif
+    };
 
+    void clg::ScreenManager::ToggleAppTheme() {
+        if (currentTheme == AppTheme::Dark) {
+            ImGui::StyleColorsLight(); // Mudar para o tema claro
+            currentTheme = AppTheme::Light;
+        } else {
+            ImGui::StyleColorsDark(); // Mudar para o tema escuro
+            currentTheme = AppTheme::Dark;
+        };
+    };
+
+    bool clg::ScreenManager::initOpenGL(GLFWwindow* window){
+        IMGUI_CHECKVERSION();
+        ImGui::CreateContext();
+        ImGuiIO& io = ImGui::GetIO(); (void)io;
+        io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
+        io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
+
+        // Setup Dear ImGui style
+        ImGui::StyleColorsDark();
+        //ImGui::StyleColorsLight();
+        // Setup Platform/Renderer backends
+        ImGui_ImplGlfw_InitForOpenGL(window, true);
+        #ifdef __EMSCRIPTEN__
+            ImGui_ImplGlfw_InstallEmscriptenCanvasResizeCallback("#canvas");
+        #endif
+        ImGui_ImplOpenGL3_Init(this->glsl_version);
+        return true;
+    };
+
+    void clg::ScreenManager::newScreen(const char* title,clg::vec2 pos, clg::vec2 size){
+        ImGui::SetNextWindowPos(ImVec2(pos.x, pos.y));
+        ImGui::SetNextWindowSize(ImVec2(size.x, size.y));
+        ImGui::Begin(title,nullptr,ImGuiWindowFlags_NoResize);
+    }
+
+    void clg::ScreenManager::endScreen()
+    {
+        ImGui::End();
+    }
+
+    void clg::ScreenManager::startRender(){
+        ImGui_ImplOpenGL3_NewFrame();
+        ImGui_ImplGlfw_NewFrame();
+        ImGui::NewFrame();
+
+    }
+
+    void clg::ScreenManager::endRender(){
+        ImGui::Render();
+        ImGui::EndFrame();
+        ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+    }
+
+    void clg::ScreenManager::destroyScreen(){
+        ImGui_ImplOpenGL3_Shutdown();
+        ImGui_ImplGlfw_Shutdown();
+        ImGui::DestroyContext();
+    }
 
 }
