@@ -18,6 +18,29 @@ find_package(glfw3 REQUIRED)
 set(SOURCE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/src)
 
 
+
+
+# criação dos diretorios do SDK
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/calangoSDK/lib 
+  CACHE PATH "Output directory for static libraries.")
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/calangoSDK/lib
+  CACHE PATH "Output directory for shared libraries.")
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/calangoSDK/bin
+  CACHE PATH "Output directory for executables and DLL's.")
+
+# Arquivos de saída de diretório para geradores multiconfig
+foreach(OUTPUTCONFIG ${CMAKE_CONFIGURATION_TYPES})
+  string(TOUPPER ${OUTPUTCONFIG} OUTPUTCONFIG)
+  set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_${OUTPUTCONFIG} "${CMAKE_BINARY_DIR}/calangoSDK/bin" CACHE PATH "" FORCE)
+  set(CMAKE_LIBRARY_OUTPUT_DIRECTORY_${OUTPUTCONFIG} "${CMAKE_BINARY_DIR}/calangoSDK/lib" CACHE PATH "" FORCE)
+  set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_${OUTPUTCONFIG} "${CMAKE_BINARY_DIR}/calangoSDK/lib" CACHE PATH "" FORCE)
+endforeach()
+
+
+
+
+
+
 #IMGUI CONFIGURACAO----------------------------------------------------
 # Defina o diretório onde estão localizados os arquivos imgui*.cpp
 set(IMGUI_SOURCE_DIR ${SOURCE_PATH}/lib/imgui)
@@ -33,6 +56,6 @@ include_directories(
 
 
 #Gerar Executavel
-add_executable(executavel WIN32 ${SOURCE_PATH}/main.cpp  ${IMGUI_SOURCES})
+add_executable(clauncher WIN32 ${SOURCE_PATH}/calango_launcher.cpp "${CALANGO_WINDOWS_RESOURCE_FILE}" )
 target_include_directories(executavel PRIVATE ${IMGUI_SOURCE_DIR})
 target_link_libraries(executavel PRIVATE OpenGL::GL glfw gdi32 glu32.lib )
