@@ -5,7 +5,7 @@
     #define STB_IMAGE_IMPLEMENTATION
     #include <windows.h>
     #include <vector>
-
+    #include <iostream>
 
     #include <GLFW/glfw3.h>
     #include <GL/GLU.h>
@@ -83,10 +83,19 @@
     };
 
     //Contexto OpenGL Criar SubTelas com ImGUI
-    struct CALANGO_PLATFORM_API ScreenManager final
+    class CALANGO_PLATFORM_API ScreenManager final
     {
+      public:
         ScreenManager();
+        void initOpenGL(GLFWwindow* window);
+        void openRender();
+        void closeRender();
+        void openScreen(const char* title, clg::vec2 pos, clg::vec2 size);
+        void closeScreen();
 
+      private:
+        ImGuiContext* igContext;
+        std::string glsl_version;
 
     };
 

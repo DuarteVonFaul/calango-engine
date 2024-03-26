@@ -19,6 +19,7 @@ namespace clg
   {
 
     ScreenBuilder screenBuilder;
+    ScreenManager screenManager;
     
 
     Engine();
