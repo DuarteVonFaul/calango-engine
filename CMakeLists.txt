@@ -65,7 +65,7 @@ add_library(calango_platform SHARED
   ${IMGUI_SOURCES})
 target_include_directories(calango_platform PUBLIC "${SOURCE_PATH}/include")
 target_include_directories(calango_platform PUBLIC "${SOURCE_PATH}/include/calango")
-target_include_directories(calango_platform PUBLIC ${IMGUI_SOURCE_DIR})
+target_include_directories(calango_platform PRIVATE ${IMGUI_SOURCE_DIR})
 target_compile_options(calango_platform PRIVATE -DCALANGO_PLATFORM_IMPLEMENTATION)
 target_link_libraries(calango_platform PRIVATE OpenGL::GL glfw gdi32 glu32.lib)
 
