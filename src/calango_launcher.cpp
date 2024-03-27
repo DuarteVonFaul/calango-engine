@@ -39,8 +39,8 @@ namespace clg
         sManager.closeScreen();
         sManager.openScreen("Arquivos",clg::vec2(0,h/2),clg::vec2(w/4,h/2));
         sManager.closeScreen();
-        // sManager.openScreen("Arquivos",clg::vec2(float((w/4)*3),h/2),clg::vec2(w/4,h));
-        // sManager.closeScreen();
+        sManager.openScreen("Arquivos",clg::vec2(float((w/4)*3),h/2),clg::vec2(w/4,h));
+        sManager.closeScreen();
         
 
         sBuild.windowProjection(window);
