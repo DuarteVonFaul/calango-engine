@@ -4,22 +4,22 @@
   #ifdef _WIN32
     #define STB_IMAGE_IMPLEMENTATION
     #include <windows.h>
-    #include <vector>
     #include <iostream>
+    #include <vector>
+
+    #include "../imgui/imgui.h"
+    #include "../imgui/imgui_impl_glfw.h"
+    #include "../imgui/imgui_impl_opengl3.h"
 
     #include <GLFW/glfw3.h>
     #include <GL/GLU.h>
     #include <calango/primitives.hpp>
     #include <calango/color.hpp>
-    #include "../imgui/imgui.h"
-    #include "../imgui/imgui_impl_glfw.h"
-    #include "../imgui/imgui_impl_opengl3.h"
+ 
     #define CALANGO_PLATFORM_WINDOWS
   #elif __linux__
     #include <stdlib.h>
     #include <string.h>
-    #include <GLFW/glfw3.h>
-    #include <gl/GLU.h>
     #define CALANGO_PLATFORM_LINUX
   #else
     #define CALANGO_PLATFORM_UNKNOWN
@@ -34,7 +34,9 @@
     #endif //CALANGO_PLATFORM_IMPLEMENTATION WIN
   #else
     #define CALANGO_PLATFORM_API
-  #endif // CALANGO_PLATFORM_WINDOWS
+  #endif // CALANGO_PLATFORM_WINDOWS   #include <iostream>
+
+
 
   namespace clg
   {
@@ -99,8 +101,32 @@
 
     };
 
+    class Camera
+    { 
+      private:
+        vec3 m_pos;
+        vec3 m_up;
+        vec3 m_left;
+        vec3 m_dir;
+      public:
+        Camera(vec3 _pos, vec3 _up, vec3 _left, vec3 _dir):m_pos(_pos), m_up(_up), m_left(_left), m_dir(_dir){};
+        void activate()
+        {
+          vec3 look = m_pos + m_dir;
+          gluLookAt(m_pos.x,m_pos.y,m_pos.z,
+                    look.x,look.y,look.z,
+                    m_up.x, m_up.y, m_up.z);
+        };
 
+    };
     
+
+    class Camera2D: public Camera
+    {
+      public:
+        Camera2D(vec2 _pos):Camera(vec3(_pos.x,_pos.y,50.0),vec3(0,1,0),vec3(-1,0,0),vec3(0,0,-1)){};
+
+    };
 
   } 
 

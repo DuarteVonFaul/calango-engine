@@ -59,7 +59,7 @@ namespace clg
         int width, height;
         glfwGetFramebufferSize(window, &width, &height);
         //Aqui eu defino o Viewport da tela ou seja a area de Desenho
-        glViewport(0, 0, width, height);
+        glViewport(width/4, 0, width/2, height);
         float aspect = (float)width/(float)height;//esse aspect é o controle para manter o aspecto das imagens
 
         //Antes de eu definir a projeção, eu primeiro defino o tamanho do meu ViewPort
@@ -345,7 +345,7 @@ namespace clg
         ImGui::SetCurrentContext(this->igContext);
         ImGui::SetNextWindowPos(ImVec2(pos.x,pos.y));
         ImGui::SetNextWindowSize(ImVec2(size.x,size.y));
-        ImGui::Begin(title,nullptr,ImGuiWindowFlags_NoResize);
+        ImGui::Begin(title,nullptr);
     };
     void ScreenManager::closeScreen(){
         ImGui::SetCurrentContext(this->igContext);
