@@ -7,9 +7,9 @@
     #include <iostream>
     #include <vector>
 
-    #include "../imgui/imgui.h"
-    #include "../imgui/imgui_impl_glfw.h"
-    #include "../imgui/imgui_impl_opengl3.h"
+    #include "../lib/imgui/imgui.h"
+    #include "../lib/imgui/imgui_impl_glfw.h"
+    #include "../lib/imgui/imgui_impl_opengl3.h"
 
     #include <GLFW/glfw3.h>
     #include <GL/GLU.h>
