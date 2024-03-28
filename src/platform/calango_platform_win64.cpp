@@ -60,7 +60,7 @@ namespace clg
         glfwGetFramebufferSize(window, &width, &height);
         //Aqui eu defino o Viewport da tela ou seja a area de Desenho
         glViewport(width/4, 0, width/2, height);
-        float aspect = (float)width/(float)height;//esse aspect é o controle para manter o aspecto das imagens
+        float aspect = (float)(width/2)/(float)height;//esse aspect é o controle para manter o aspecto das imagens
 
         //Antes de eu definir a projeção, eu primeiro defino o tamanho do meu ViewPort
         glMatrixMode(GL_PROJECTION);
@@ -210,7 +210,7 @@ namespace clg
         clg::vec3 v8     = clg::vec3( -d,  d, -d);
 
         glNewList(id,GL_COMPILE);
-            // glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
+            glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
             this->Rect(v1,v2,v3,v4,clg::RED);
             this->Rect(v4,v3,v6,v5,clg::GREEN);
             this->Rect(v5,v8,v7,v6,clg::VIOLET);
@@ -296,10 +296,6 @@ namespace clg
     }
 
 
-
-    //Funções GUI
-
-
     ScreenManager::ScreenManager(){
         #if defined(IMGUI_IMPL_OPENGL_ES2)
             // GL ES 2.0 + GLSL 100
@@ -329,6 +325,7 @@ namespace clg
     void ScreenManager::initOpenGL(GLFWwindow* window){
         IMGUI_CHECKVERSION();
         this->igContext = ImGui::CreateContext();
+        this->window = window;
         ImGui::SetCurrentContext(this->igContext);
         ImGuiIO& io = ImGui::GetIO(); (void)io;
         io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
@@ -340,7 +337,7 @@ namespace clg
         //ImGui::StyleColorsLight();
 
         // Setup Platform/Renderer backends
-        ImGui_ImplGlfw_InitForOpenGL(window, true);
+        ImGui_ImplGlfw_InitForOpenGL(this->window, true);
         #ifdef __EMSCRIPTEN__
             ImGui_ImplGlfw_InstallEmscriptenCanvasResizeCallback("#canvas");
         #endif
@@ -349,9 +346,19 @@ namespace clg
     void ScreenManager::openScreen(const char* title, clg::vec2 pos, clg::vec2 size){
         ImGui::SetCurrentContext(this->igContext);
         ImGui::SetNextWindowPos(ImVec2(pos.x,pos.y));
+
         ImGui::SetNextWindowSize(ImVec2(size.x,size.y));
         ImGui::Begin(title,nullptr);
     };
+
+    void ScreenManager::openScreen(const char* title, float anchor_x,float anchor_y,float size_x,float size_y){
+        ImGui::SetCurrentContext(this->igContext);
+        int width, height;
+        glfwGetFramebufferSize(this->window, &width, &height);
+        ImGui::SetNextWindowPos(ImVec2(anchor_x * width,anchor_y * height));
+        ImGui::SetNextWindowSize(ImVec2(size_x * width,size_y * height));
+        ImGui::Begin(title,nullptr);
+    }
     void ScreenManager::closeScreen(){
         ImGui::SetCurrentContext(this->igContext);
         ImGui::End();
@@ -369,4 +376,30 @@ namespace clg
         ImGui::EndFrame();
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
     };
+
+
+    void ScreenManager::renderButton(clg::vec2 anchor, clg::vec2 size,std::string text,MethodCallback callback)
+    {   
+        if(ImGui::Button(text.c_str(), ImVec2(size.x, size.y))){
+            callback();
+        }
+
+    };
+    void ScreenManager::renderLabel(clg::vec2 anchor, clg::vec2 size,std::string text,MethodCallback callback)
+    {
+    };
+    void ScreenManager::renderTextArea(clg::vec2 anchor, clg::vec2 size,const char textTitle[100], std::string* textBuffer,MethodCallback callback)
+    {   
+        char buffer[2048]; // Tamanho adequado para o buffer
+        strncpy(buffer, textBuffer->c_str(), sizeof(buffer)); // Copia o conteúdo da string para o buffer
+        ImGui::InputTextMultiline(textTitle, buffer, sizeof(buffer), ImVec2(size.x, size.y));
+        *textBuffer = buffer;
+    };
+
+
+    
+    //
+    // Funções inerente a GUI da Tela
+    //
+
 }

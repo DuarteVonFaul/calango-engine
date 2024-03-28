@@ -6,6 +6,13 @@ namespace clg
 {
   namespace launcher
   {
+
+    std::string bTexte = "cliqueAqui";
+    std::string BufferText = "";
+    void alterText(){
+      bTexte = BufferText;
+    };
+
     int calangoMain(int argc, char** argv)
     {
       
@@ -24,22 +31,23 @@ namespace clg
       sManager.initOpenGL(window);
 
       sBuild.clearColorWindow();
-      draw.Cube(2,10.0);
+      draw.Cube(2,5.0);
       draw.orientationPlane(1);
       clg::Camera2D camera = clg::Camera2D(clg::vec2(0,0));
-
+      
       float angulo = 0.0;
-
       while(!sBuild.getWindowCloseFlag(window))
       {
         sBuild.updateWindowEvents(window);
 
         sManager.openRender();
-        sManager.openScreen("Scene",clg::vec2(0,0),clg::vec2(w/4,h/2));
+        sManager.openScreen("Scene",0.0,0.0,0.25,0.5);
         sManager.closeScreen();
-        sManager.openScreen("Arquivos",clg::vec2(0,h/2),clg::vec2(w/4,h/2));
+        sManager.openScreen("Arquivos",0.0,0.5,0.25,0.5);
+        sManager.renderTextArea(clg::vec2(),clg::vec2(200.0,100.0),"TextoTeste", &BufferText,alterText);
         sManager.closeScreen();
-        sManager.openScreen("Arquivos",clg::vec2(float((w/4)*3),h/2),clg::vec2(w/4,h));
+        sManager.openScreen("Propriedade",0.75,0.0,0.25,1);
+        sManager.renderButton(clg::vec2(),clg::vec2(100.0,30.0),bTexte,alterText);
         sManager.closeScreen();
         
 
@@ -62,7 +70,7 @@ namespace clg
         draw.getInstance(2);
         draw.endDraw();
 
-        angulo += 0.1;
+        angulo += 0.25;
 
         draw.drawScreen(window);
       }
