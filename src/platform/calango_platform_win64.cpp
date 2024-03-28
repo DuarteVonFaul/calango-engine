@@ -385,8 +385,9 @@ namespace clg
         }
 
     };
-    void ScreenManager::renderLabel(clg::vec2 anchor, clg::vec2 size,std::string text,MethodCallback callback)
+    void ScreenManager::renderLabel(clg::vec2 anchor, clg::vec2 size,std::string text)
     {
+        ImGui::Text(text.c_str());
     };
     void ScreenManager::renderTextArea(clg::vec2 anchor, clg::vec2 size,const char textTitle[100], std::string* textBuffer,MethodCallback callback)
     {   
@@ -395,6 +396,11 @@ namespace clg
         ImGui::InputTextMultiline(textTitle, buffer, sizeof(buffer), ImVec2(size.x, size.y));
         *textBuffer = buffer;
     };
+
+    void ScreenManager::renderCheckBox(clg::vec2 anchor, clg::vec2 size,std::string text, bool*  checkBoxValue)
+        {
+            ImGui::Checkbox("Check Box", checkBoxValue);     
+        };
 
 
     

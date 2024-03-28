@@ -34,21 +34,37 @@ namespace clg
       draw.Cube(2,5.0);
       draw.orientationPlane(1);
       clg::Camera2D camera = clg::Camera2D(clg::vec2(0,0));
-      
+
+
+
+      std::string texto = "Não Checkado";
       float angulo = 0.0;
+      bool checked = false;
+
+
       while(!sBuild.getWindowCloseFlag(window))
       {
         sBuild.updateWindowEvents(window);
 
         sManager.openRender();
-        sManager.openScreen("Scene",0.0,0.0,0.25,0.5);
-        sManager.closeScreen();
-        sManager.openScreen("Arquivos",0.0,0.5,0.25,0.5);
-        sManager.renderTextArea(clg::vec2(),clg::vec2(200.0,100.0),"TextoTeste", &BufferText,alterText);
-        sManager.closeScreen();
-        sManager.openScreen("Propriedade",0.75,0.0,0.25,1);
-        sManager.renderButton(clg::vec2(),clg::vec2(100.0,30.0),bTexte,alterText);
-        sManager.closeScreen();
+
+          sManager.openScreen("Scene",0.0,0.0,0.25,0.5);
+            sManager.renderLabel(clg::vec2(),clg::vec2(),texto);
+            sManager.renderCheckBox(clg::vec2(),clg::vec2(),texto,&checked);
+            if(checked){            
+              texto = "Checkado";
+            }else{
+              texto = "Não Checkado";
+            }
+          sManager.closeScreen();
+
+          sManager.openScreen("Arquivos",0.0,0.5,0.25,0.5);
+            sManager.renderTextArea(clg::vec2(),clg::vec2(200.0,100.0),"TextoTeste", &BufferText,alterText);
+          sManager.closeScreen();
+
+          sManager.openScreen("Propriedade",0.75,0.0,0.25,1);
+            sManager.renderButton(clg::vec2(),clg::vec2(100.0,30.0),bTexte,alterText);
+          sManager.closeScreen();
         
 
         sBuild.windowProjection(window);

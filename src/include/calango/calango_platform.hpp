@@ -104,12 +104,13 @@
                           std::string text,
                           MethodCallback callback);
         void renderLabel(clg::vec2 anchor, clg::vec2 size,
-                          std::string text,
-                         MethodCallback callback);
+                          std::string text);
         void renderTextArea(clg::vec2 anchor, clg::vec2 size,
                             const char textTitle[100], 
                             std::string* textBuffer,
                             MethodCallback callback);
+        void renderCheckBox(clg::vec2 anchor, clg::vec2 size,
+                            std::string text,bool*  checkBoxValue);
 
 
 
