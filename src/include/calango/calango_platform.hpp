@@ -7,9 +7,9 @@
     #include <iostream>
     #include <vector>
 
-    #include "../imgui/imgui.h"
-    #include "../imgui/imgui_impl_glfw.h"
-    #include "../imgui/imgui_impl_opengl3.h"
+    #include "../lib/imgui/imgui.h"
+    #include "../lib/imgui/imgui_impl_glfw.h"
+    #include "../lib/imgui/imgui_impl_opengl3.h"
 
     #include <GLFW/glfw3.h>
     #include <GL/GLU.h>
@@ -40,6 +40,9 @@
 
   namespace clg
   {
+
+
+    typedef void (*MethodCallback)();
 
     struct CALANGO_PLATFORM_API Draw final{
       Draw(int);
@@ -89,13 +92,32 @@
     {
       public:
         ScreenManager();
+        //Contexto OpenGL e Criação de Janelas
         void initOpenGL(GLFWwindow* window);
         void openRender();
         void closeRender();
         void openScreen(const char* title, clg::vec2 pos, clg::vec2 size);
+        void openScreen(const char* title, float anchor_x,float anchor_y,float size_x,float size_y);
         void closeScreen();
+        //GUI
+        void renderButton(clg::vec2 anchor, clg::vec2 size,
+                          std::string text,
+                          MethodCallback callback);
+        void renderLabel(clg::vec2 anchor, clg::vec2 size,
+                          std::string text,
+                         MethodCallback callback);
+        void renderTextArea(clg::vec2 anchor, clg::vec2 size,
+                            const char textTitle[100], 
+                            std::string* textBuffer,
+                            MethodCallback callback);
+
+
+
+
+
 
       private:
+        GLFWwindow* window;
         ImGuiContext* igContext;
         std::string glsl_version;
 
