@@ -1,5 +1,8 @@
 #pragma once
 #include <cmath>
+#include <list>
+#include <iostream>
+
 namespace clg
 {
     struct vec3
@@ -47,4 +50,6 @@ namespace clg
         bool operator == (const vec2& v) const { return (x == v.x && y == v.y);};
         bool operator != (const vec2& v) const { return (x != v.x || y != v.y);};
     };
+
+
 }

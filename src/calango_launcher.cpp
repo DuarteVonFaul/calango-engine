@@ -9,17 +9,29 @@ namespace clg
 
     std::string bTexte = "cliqueAqui";
     std::string BufferText = "";
+
+    int  current = -1;
+
     void alterText(){
       bTexte = BufferText;
     };
 
+    Engine engine;
+    ScreenBuilder sBuild = engine.screenBuilder;
+    ScreenManager sManager = engine.screenManager;
+
+
+    void list(){
+      sManager.renderSelectable("item 1",&current,0);
+      sManager.renderSelectable("item 1",&current,1);
+      sManager.renderSelectable("item 1",&current,2);
+
+    }
+
     int calangoMain(int argc, char** argv)
     {
-      
 
-      Engine engine;
-      ScreenBuilder sBuild = engine.screenBuilder;
-      ScreenManager sManager = engine.screenManager;
+      
       Draw draw = Draw(2);
 
       int w,h;
@@ -29,6 +41,8 @@ namespace clg
       GLFWwindow* window = sBuild.createWindow(1280,720,"Game Engine");
       sBuild.initOpenGL(window);
       sManager.initOpenGL(window);
+
+      
 
       sBuild.clearColorWindow();
       draw.Cube(2,5.0);
@@ -40,7 +54,7 @@ namespace clg
       std::string texto = "Não Checkado";
       float angulo = 0.0;
       bool checked = false;
-
+      
 
       while(!sBuild.getWindowCloseFlag(window))
       {
@@ -64,6 +78,7 @@ namespace clg
 
           sManager.openScreen("Propriedade",0.75,0.0,0.25,1);
             sManager.renderButton(clg::vec2(),clg::vec2(100.0,30.0),bTexte,alterText);
+            sManager.renderTree("Basic",list);
           sManager.closeScreen();
         
 

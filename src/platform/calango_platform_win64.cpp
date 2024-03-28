@@ -402,8 +402,21 @@ namespace clg
             ImGui::Checkbox("Check Box", checkBoxValue);     
         };
 
+    void ScreenManager::renderTree(const char* name,MethodCallback callback)
+    {
+        if (ImGui::TreeNode(name)) {
+            callback();
+            ImGui::TreePop();
+        }
+        
+    }
+        
+    void ScreenManager::renderSelectable(const char* name, int *current_select, int id)
+    {
+        ImGui::Selectable(name, current_select, *current_select == id);
+        
+    };
 
-    
     //
     // Funções inerente a GUI da Tela
     //
