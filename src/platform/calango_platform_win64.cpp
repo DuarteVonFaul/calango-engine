@@ -55,25 +55,23 @@ namespace clg
 
     void clg::ScreenBuilder::windowProjection(GLFWwindow* window){
         int width, height;
-        float aspect = 0.0;
         glfwGetFramebufferSize(window, &width, &height);
         //Aqui eu defino o Viewport da tela ou seja a area de Desenho
-        glViewport(width, 0, width, height);
-        aspect = (float)(width)/(float)height;//esse aspect é o controle para manter o aspecto das imagens       
+        glViewport(0, 0, width, height);
+        float  aspect = (float)(width)/(float)height;//esse aspect é o controle para manter o aspecto das imagens       
         glMatrixMode(GL_PROJECTION);
         glLoadIdentity();
         
         gluPerspective(45.0, aspect, 0.1, 500);
     };
 
-    void clg::ScreenBuilder::windowProjection(GLFWwindow* window, clg::vec2 anchor = clg::vec2(), clg::vec2 size = clg::vec2())
+    void clg::ScreenBuilder::windowProjection(GLFWwindow* window, clg::vec2 anchor, clg::vec2 size = clg::vec2())
     {   
         //Aqui eu pego o tamanho da Janela
         int width, height;
-        float aspect = 0.0;
         glfwGetFramebufferSize(window, &width, &height);
         glViewport(width * anchor.x, height * anchor.y, width * size.x, height * size.y);
-        aspect = (float)(width/2)/(float)height;
+        float aspect = (float)(width * size.x)/(float)height * size.y;
         glMatrixMode(GL_PROJECTION);
         glLoadIdentity();
         

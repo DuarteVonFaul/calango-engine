@@ -82,7 +82,7 @@ namespace clg
           sManager.closeScreen();
         
 
-        sBuild.windowProjection(window);
+        sBuild.windowProjection(window,clg::vec2(0.25,0.0),clg::vec2(0.5,1.0));
         sBuild.clearWindow(window);
         sManager.closeRender();
 
