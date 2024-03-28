@@ -53,16 +53,27 @@ namespace clg
         // glEnable(GL_DEPTH_TEST);
     }
 
-    void clg::ScreenBuilder::windowProjection(GLFWwindow* window)
+    void clg::ScreenBuilder::windowProjection(GLFWwindow* window){
+        int width, height;
+        float aspect = 0.0;
+        glfwGetFramebufferSize(window, &width, &height);
+        //Aqui eu defino o Viewport da tela ou seja a area de Desenho
+        glViewport(width, 0, width, height);
+        aspect = (float)(width)/(float)height;//esse aspect é o controle para manter o aspecto das imagens       
+        glMatrixMode(GL_PROJECTION);
+        glLoadIdentity();
+        
+        gluPerspective(45.0, aspect, 0.1, 500);
+    };
+
+    void clg::ScreenBuilder::windowProjection(GLFWwindow* window, clg::vec2 anchor = clg::vec2(), clg::vec2 size = clg::vec2())
     {   
         //Aqui eu pego o tamanho da Janela
         int width, height;
+        float aspect = 0.0;
         glfwGetFramebufferSize(window, &width, &height);
-        //Aqui eu defino o Viewport da tela ou seja a area de Desenho
-        glViewport(width/4, 0, width/2, height);
-        float aspect = (float)(width/2)/(float)height;//esse aspect é o controle para manter o aspecto das imagens
-
-        //Antes de eu definir a projeção, eu primeiro defino o tamanho do meu ViewPort
+        glViewport(width * anchor.x, height * anchor.y, width * size.x, height * size.y);
+        aspect = (float)(width/2)/(float)height;
         glMatrixMode(GL_PROJECTION);
         glLoadIdentity();
         
@@ -413,9 +424,21 @@ namespace clg
         
     void ScreenManager::renderSelectable(const char* name, int *current_select, int id)
     {
-        ImGui::Selectable(name, current_select, *current_select == id);
+        ImGui::Selectable(name, current_select, *current_select == id); 
         
     };
+
+    void ScreenManager::renderSameLine()
+    {
+        ImGui::SameLine();
+    };
+
+    void ScreenManager::renderSmallButton(const char* name,MethodCallback callback){
+        if(ImGui::SmallButton(name)){
+            callback();
+        }
+
+    }
 
     //
     // Funções inerente a GUI da Tela

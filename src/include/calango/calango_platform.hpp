@@ -82,6 +82,7 @@
         void clearWindowCloseFlag(GLFWwindow* window);
 
         void windowProjection(GLFWwindow* window);
+        void windowProjection(GLFWwindow* window, clg::vec2 anchor = clg::vec2(), clg::vec2 size = clg::vec2());
         void clearColorWindow(vec4 clear_color = vec4(0.0f, 0.0f, 0.0f, 1.00f));
         void clearWindow(GLFWwindow* window);
 
@@ -121,6 +122,8 @@
                             bool*  checkBoxValue);
 
         void renderTree(const char* name,MethodCallback callback);
+        void renderSameLine();
+        void renderSmallButton(const char* name,MethodCallback callback);
         void renderSelectable(const char* name,int *current_select, int id);
 
 
