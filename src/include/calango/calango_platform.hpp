@@ -6,6 +6,7 @@
     #include <windows.h>
     #include <iostream>
     #include <vector>
+    #include <cmath>
 
     #include "../lib/imgui/imgui.h"
     #include "../lib/imgui/imgui_impl_glfw.h"
@@ -41,8 +42,6 @@
   namespace clg
   {
 
-
-    typedef void (*MethodCallback)();
 
     struct CALANGO_PLATFORM_API Draw final{
       Draw(int);
@@ -125,6 +124,7 @@
         void renderSameLine();
         void renderSmallButton(const char* name,MethodCallback callback);
         void renderSelectable(const char* name,int *current_select, int id);
+        void renderMenuBar();
 
 
 

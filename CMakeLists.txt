@@ -79,7 +79,7 @@ add_library(calango SHARED ${SOURCE_PATH}/calango_engine.cpp
   "${CALANGO_WINDOWS_RESOURCE_FILE}")
 target_include_directories(calango PUBLIC "${SOURCE_PATH}/include")
 target_compile_options(calango PRIVATE -DCALANGO_ENGINE_IMPLEMENTATION)
-target_link_libraries(calango PRIVATE calango_platform)
+target_link_libraries(calango PRIVATE calango_platform glu32.lib)
 add_custom_command(TARGET calango POST_BUILD 
   COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_BINARY_DIR}/calangoSDK/include
   COMMAND ${CMAKE_COMMAND} -E copy_directory ${SOURCE_PATH}/include/calango/ ${CMAKE_BINARY_DIR}/calangoSDK/include)

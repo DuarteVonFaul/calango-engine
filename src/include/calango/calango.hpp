@@ -5,5 +5,15 @@
 #if defined(DEBUG) || defined(_DEBUG)
   #define CALANGO_DEBUG
 #endif
+namespace clg{
+
+
+    struct calango_launcher final 
+    {
+
+    };
+
+
+}
 
 #endif //CALANGO_H

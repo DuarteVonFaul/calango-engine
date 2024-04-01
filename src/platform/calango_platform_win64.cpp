@@ -438,6 +438,33 @@ namespace clg
 
     }
 
+    void ScreenManager::renderMenuBar() {
+    if (ImGui::BeginMainMenuBar()) {
+        if (ImGui::BeginMenu("File")) {
+            if (ImGui::MenuItem("New")) {
+                // Implementação para ação de "New"
+            }
+            if (ImGui::MenuItem("Open", "Ctrl+O")) {
+                // Implementação para ação de "Open"
+            }
+            if (ImGui::MenuItem("Save", "Ctrl+S")) {
+                // Implementação para ação de "Save"
+            }
+            ImGui::Separator();
+            if (ImGui::MenuItem("Exit")) {
+                // Implementação para ação de "Exit"
+            }
+            ImGui::EndMenu();
+        }
+        if (ImGui::BeginMenu("Edit")) {
+            // Adicione aqui mais itens de menu para o menu "Edit", se necessário
+            ImGui::EndMenu();
+        }
+        // Adicione mais menus aqui, se necessário
+        ImGui::EndMainMenuBar();
+    }
+}
+
     //
     // Funções inerente a GUI da Tela
     //

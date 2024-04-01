@@ -7,108 +7,41 @@ namespace clg
   namespace launcher
   {
 
-    std::string bTexte = "cliqueAqui";
-    std::string BufferText = "";
-
-    int  current = -1;
-
-    void alterText(){
-      bTexte = BufferText;
-    };
-
-    Engine engine;
-    ScreenBuilder sBuild = engine.screenBuilder;
-    ScreenManager sManager = engine.screenManager;
-
-
-    void list(){
-      sManager.renderSelectable("item 1",&current,0);
-      sManager.renderSelectable("item 1",&current,1);
-      sManager.renderSelectable("item 1",&current,2);
-
-    }
-
     int calangoMain(int argc, char** argv)
     {
 
+      Scene3D* main = new Scene3D(0);
       
-      Draw draw = Draw(2);
+      Engine engine = Engine(main);
+      GLFWwindow* window = engine.screenBuilder.createWindow(1280,720,"Game Engine");
 
-      int w,h;
-      w = 1280;
-      h = 720;
 
-      GLFWwindow* window = sBuild.createWindow(1280,720,"Game Engine");
-      sBuild.initOpenGL(window);
-      sManager.initOpenGL(window);
+      Screen* screen = new Screen(vec2(0.0,0.7),vec2(0.25,0.25),"TESTE");
+
+      main->addControl(screen);
+
 
       
-
-      sBuild.clearColorWindow();
-      draw.Cube(2,5.0);
-      draw.orientationPlane(1);
-      clg::Camera2D camera = clg::Camera2D(clg::vec2(0,0));
-
-
-
-      std::string texto = "Não Checkado";
-      float angulo = 0.0;
-      bool checked = false;
-      
-
-      while(!sBuild.getWindowCloseFlag(window))
+      engine.read(window);
+      while(!engine.screenBuilder.getWindowCloseFlag(window))
       {
-        sBuild.updateWindowEvents(window);
+        engine.screenManager.openRender();
 
-        sManager.openRender();
+          engine.tick();
+          engine.screenManager.openScreen("Scene",0.0,0.0,0.25,0.5);
+          engine.screenManager.closeScreen();
 
-          sManager.openScreen("Scene",0.0,0.0,0.25,0.5);
-            sManager.renderLabel(clg::vec2(),clg::vec2(),texto);
-            sManager.renderCheckBox(clg::vec2(),clg::vec2(),texto,&checked);
-            if(checked){            
-              texto = "Checkado";
-            }else{
-              texto = "Não Checkado";
-            }
-          sManager.closeScreen();
+          engine.screenManager.openScreen("Arquivos",0.0,0.5,0.25,0.5);
+          engine.screenManager.closeScreen();
 
-          sManager.openScreen("Arquivos",0.0,0.5,0.25,0.5);
-            sManager.renderTextArea(clg::vec2(),clg::vec2(200.0,100.0),"TextoTeste", &BufferText,alterText);
-          sManager.closeScreen();
+          engine.screenManager.openScreen("Propriedades",0.75,0.0,0.25,1.0);
+          engine.screenManager.closeScreen();
 
-          sManager.openScreen("Propriedade",0.75,0.0,0.25,1);
-            sManager.renderButton(clg::vec2(),clg::vec2(100.0,30.0),bTexte,alterText);
-            sManager.renderTree("Basic",list);
-          sManager.closeScreen();
-        
-
-        sBuild.windowProjection(window,clg::vec2(0.25,0.0),clg::vec2(0.5,1.0));
-        sBuild.clearWindow(window);
-        sManager.closeRender();
-
-        draw.drawIndetity();
-
-        camera.activate();
-
-        draw.newDraw();
-        draw.getInstance(1);
-        draw.endDraw();
-
-
-        draw.newDraw();
-        draw.translate(vec3(0.0,0.0,0));
-        draw.Rotate(vec4(angulo,1.0,1.0,0.0));
-        draw.getInstance(2);
-        draw.endDraw();
-
-        angulo += 0.25;
-
-        draw.drawScreen(window);
+        engine.screenManager.closeRender();
+        engine.draw.drawScreen(window);
       }
+      engine.screenBuilder.destroyWindow(window);
 
-      sBuild.destroyWindow(window);
-
-      
       return 0;
     }
   }
