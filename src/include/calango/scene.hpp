@@ -1,6 +1,7 @@
 #ifndef CALANGO_SCENE
     #define CALANGO_SCENE
     #include <calango/primitives.hpp>
+    #include <calango/calango_platform.hpp>
     #include <iostream>
 
     namespace clg
@@ -15,9 +16,20 @@
                 Scene(int _id): id(_id), presets(clg::vec4()){name="New Scene";};
                 Scene(int _id, std::string _name): id(_id),name(_name), presets(clg::vec4()){};
                 ~Scene();
+
+                void setId(int i){this->id = i;}
+                int getId(){return this->id;}
+
+                void setPresets(clg::vec4 p){this->presets = p;}
+                clg::vec4 getPresets(){return this->presets;}
+
+                void setId(std::string n){this->name = n;}
+                std::string getName(){return this->name;}
+
+
                 virtual void read() const = 0;
-                virtual void tickControl() const = 0;
-                virtual void tickEntity() const = 0;
+                virtual void tickControl(GuiManager* gui, Window* window) const = 0;
+                virtual void tickEntity(DrawManager* draw) const = 0;
         };
 
 

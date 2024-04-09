@@ -15,13 +15,7 @@ namespace clg
       Engine engine = Engine(main);
       GLFWwindow* window = engine.wManager.createWindow(1280,720,"Game Engine");
 
-
-      Screen* screen = new Screen(vec2(0.0,0.7),vec2(0.25,0.25),"TESTE");
-
-      main->addControl(screen);
-
-
-      
+      engine.changeScene(0);
       engine.read(window);
       while(!engine.wManager.getWindowCloseFlag(window))
       {

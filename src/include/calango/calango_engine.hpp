@@ -1,7 +1,6 @@
 #ifndef CALANGO_ENGINE
 #define CALANGO_ENGINE
 
-#include <calango/calango_platform.hpp>
 #include <calango/primitives.hpp>
 #include <calango/scene.hpp>
 #include <calango/entity.hpp>
@@ -47,7 +46,7 @@ namespace clg
     Window*       window;
     Camera*       camera;
 
-    int currentScene;
+    int currentScene = 0;
     std::vector<Scene*> scenes;
     FLAGS_ENGINE_SCENE flagsScene;
 
@@ -74,8 +73,8 @@ namespace clg
       Scene2D(int _id): Scene(_id){};
       ~Scene2D(){};
       void read() const override{};
-      void tickControl() const override{};
-      void tickEntity() const override{};
+      void tickControl(GuiManager* gui, Window* window) const override{};
+      void tickEntity(DrawManager* draw) const override{};
 
   };
 
@@ -91,9 +90,22 @@ namespace clg
       void addControl(Control* control) {
         this->controls.push_back(control);
       }
-      void read() const override{};
-      void tickControl() const override{};
-      void tickEntity() const override{};
+      void read() const override{
+      };
+      void tickControl(GuiManager* gui, Window* window) const override{
+        ImGuiWindowFlags window_flags = 0;
+        //window_flags |= ImGuiWindowFlags_NoTitleBar;
+        window_flags |= ImGuiWindowFlags_NoBackground;
+        window_flags |= ImGuiWindowFlags_NoCollapse;
+        gui->openScreen(window->GuiContext,window->windowContext,"Testando Tela",
+                        window->viewportPresets.x,
+                        window->viewportPresets.y,
+                        window->viewportPresets.z,
+                        window->viewportPresets.w,
+                        window_flags);
+        gui->closeScreen(window->GuiContext);
+      };
+      void tickEntity(DrawManager* draw) const override{};
       
 
   };

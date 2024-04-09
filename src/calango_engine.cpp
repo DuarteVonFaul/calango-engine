@@ -57,10 +57,10 @@ namespace clg
       this->dManager.getInstance(1);
       this->dManager.endDraw();
 
-      this->scenes[this->currentScene]->tickEntity();
+      this->scenes[this->currentScene]->tickEntity(&dManager);
       this->gManager.openRender(this->window->GuiContext);
+      this->scenes[this->currentScene]->tickControl(&gManager, this->window);
       this->window->OnGui(&gManager);
-      this->scenes[this->currentScene]->tickControl();
       this->gManager.closeRender(this->window->GuiContext);
       this->dManager.drawScreen(this->window->windowContext);
 

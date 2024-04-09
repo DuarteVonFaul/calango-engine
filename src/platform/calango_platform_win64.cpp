@@ -364,7 +364,12 @@ namespace clg
         ImGui::Begin(title,nullptr);
     };
 
-    void GuiManager::openScreen(ImGuiContext* igContext, GLFWwindow* window, const char* title, float anchor_x,float anchor_y,float size_x,float size_y, ImGuiWindowFlags window_flags){
+    void GuiManager::openScreen(ImGuiContext* igContext, 
+                                GLFWwindow* window, 
+                                const char* title, 
+                                float anchor_x,float anchor_y,
+                                float size_x,float size_y, 
+                                ImGuiWindowFlags window_flags){
         ImGui::SetCurrentContext(igContext);
         int width, height;
         glfwGetFramebufferSize(window, &width, &height);
