@@ -42,9 +42,8 @@
   namespace clg
   {
 
-
-    struct CALANGO_PLATFORM_API Draw final{
-      Draw(int);
+    struct CALANGO_PLATFORM_API DrawManager final{
+      DrawManager(int);
       int amount;
 
       void Triangle(unsigned int id, clg::vec3 p1,clg::vec3 p2,clg::vec3 p3, clg::color color);
@@ -67,38 +66,22 @@
 
     };
 
-    //Contexto OpenGl criar uma Tela com GLFW 
-    struct CALANGO_PLATFORM_API ScreenBuilder final
-    {
-        ScreenBuilder();
-        void showMensage(const char* message);
-        GLFWwindow* createWindow(int width, int height, const char* title);
-
-        void destroyWindow(GLFWwindow* window);
-        bool initOpenGL(GLFWwindow* window);
-        void updateWindowEvents(GLFWwindow* window);
-        bool getWindowCloseFlag(GLFWwindow* window);
-        void clearWindowCloseFlag(GLFWwindow* window);
-
-        void windowProjection(GLFWwindow* window);
-        void windowProjection(GLFWwindow* window, clg::vec2 anchor, clg::vec2 size);
-        void clearColorWindow(vec4 clear_color = vec4(0.0f, 0.0f, 0.0f, 1.00f));
-        void clearWindow(GLFWwindow* window);
-
-    };
-
     //Contexto OpenGL Criar SubTelas com ImGUI
-    class CALANGO_PLATFORM_API ScreenManager final
+    struct CALANGO_PLATFORM_API GuiManager final
     {
-      public:
-        ScreenManager();
-        //Contexto OpenGL e Criação de Janelas
-        void initOpenGL(GLFWwindow* window);
-        void openRender();
-        void closeRender();
-        void openScreen(const char* title, clg::vec2 pos, clg::vec2 size);
-        void openScreen(const char* title, float anchor_x,float anchor_y,float size_x,float size_y);
-        void closeScreen();
+        GuiManager();
+        ImGuiContext* initOpenGL(GLFWwindow* window);
+        void openRender(ImGuiContext* igContext);
+        void closeRender(ImGuiContext* igContext);
+        void openScreen(ImGuiContext* igContext,const char* title, clg::vec2 pos, clg::vec2 size);
+        void openScreen(ImGuiContext* igContext, 
+                        GLFWwindow* window, 
+                        const char* title, 
+                        float anchor_x,float anchor_y,
+                        float size_x,float size_y, 
+                        ImGuiWindowFlags window_flags = 0);
+                        
+        void closeScreen(ImGuiContext* igContext);
         //GUI
         void renderButton(clg::vec2 anchor, 
                           clg::vec2 size,
@@ -125,18 +108,43 @@
         void renderSmallButton(const char* name,MethodCallback callback);
         void renderSelectable(const char* name,int *current_select, int id);
         void renderMenuBar();
-
-
-
-
-
-
-      private:
-        GLFWwindow* window;
-        ImGuiContext* igContext;
         std::string glsl_version;
 
     };
+
+    struct CALANGO_PLATFORM_API Window final{
+
+        int width;
+        int height;
+        clg::vec4 viewportPresets;
+
+        ImGuiContext* GuiContext;
+        GLFWwindow* windowContext;
+        
+        void OnGui(clg::GuiManager* gui);
+
+    };
+
+     //Contexto OpenGl criar uma Tela com GLFW 
+    struct CALANGO_PLATFORM_API WindowManager final
+    {
+        WindowManager();
+        void showMensage(const char* message);
+        GLFWwindow* createWindow(int width, int height, const char* title);
+
+        void destroyWindow(GLFWwindow* window);
+        bool initOpenGL(GLFWwindow* window);
+        void updateWindowEvents(GLFWwindow* window);
+        bool getWindowCloseFlag(GLFWwindow* window);
+        void clearWindowCloseFlag(GLFWwindow* window);
+
+        void windowProjection(Window* window);
+        void windowProjection(Window* window, clg::vec2 anchor, clg::vec2 size);
+        void clearColorWindow(vec4 clear_color = vec4(0.0f, 0.0f, 0.0f, 1.00f));
+        void clearWindow(GLFWwindow* window);
+
+    };
+
 
     class Camera
     { 

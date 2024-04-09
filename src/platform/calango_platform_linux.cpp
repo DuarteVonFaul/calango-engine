@@ -5,7 +5,7 @@
 namespace clg
 {
 
-    void ScreenBuilder::showMensage(const char* message){
+    void WindowManager::showMensage(const char* message){
         char text[500];
         snprintf(text, sizeof(text), "zenity --warning \
             --title 'Confirm to Proceed' \

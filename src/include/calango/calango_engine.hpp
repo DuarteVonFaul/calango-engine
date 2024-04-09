@@ -20,6 +20,7 @@
 namespace clg
 {
 
+
   class Control{
     public:
         int id;
@@ -31,20 +32,20 @@ namespace clg
         proportion(_proportion),
         id(_id){};
 
-        virtual void draw(clg::vec4 viewportPresets, ScreenManager* screenManager) const = 0 ;
+        virtual void draw() const = 0 ;
 
   };
 
 
   struct CALANGO_ENGINE_API Engine final
   {
-    ScreenBuilder screenBuilder;
-    ScreenManager screenManager;
-    Draw          draw;
-    clg::vec4     viewportPresets;
+    
+    WindowManager wManager;
+    GuiManager    gManager;
+    DrawManager   dManager;
 
-    GLFWwindow* window;
-    Camera*     camera;
+    Window*       window;
+    Camera*       camera;
 
     int currentScene;
     std::vector<Scene*> scenes;
@@ -64,7 +65,7 @@ namespace clg
 
 
 //Classes para Cenas
-  class Scene2D: public Scene {
+  class CALANGO_ENGINE_API Scene2D: public Scene {
     private:
       std::vector<Entity*> entitys;
       std::vector<Control*> controls;
@@ -73,15 +74,17 @@ namespace clg
       Scene2D(int _id): Scene(_id){};
       ~Scene2D(){};
       void read() const override{};
-      void tickControl(clg::vec4 viewportPresets, ScreenManager* screenManager) const override{};
+      void tickControl() const override{};
       void tickEntity() const override{};
 
   };
 
-  class Scene3D: public Scene {
+  class CALANGO_ENGINE_API Scene3D: public Scene {
     private:
       std::vector<Entity3D*> entitys;
       std::vector<Control*> controls;
+      GuiManager*  gui;
+      DrawManager* draw;
     public:
       Scene3D(int _id): Scene(_id){};
       ~Scene3D(){};
@@ -89,12 +92,7 @@ namespace clg
         this->controls.push_back(control);
       }
       void read() const override{};
-      void tickControl(clg::vec4 viewportPresets, ScreenManager* screenManager) const override
-      {
-        for(Control* control : this->controls){
-            control->draw(viewportPresets, screenManager);
-        };
-      };
+      void tickControl() const override{};
       void tickEntity() const override{};
       
 
@@ -104,20 +102,13 @@ namespace clg
 //Classes do grupo Control [GUI]
 
 
-  class Screen: public Control{
+  class CALANGO_ENGINE_API Screen: public Control{
     private:
       std::string name;
       std::vector<Control*> controls;
     public:
       Screen(clg::vec2 anchor,clg::vec2 proportion, std::string _name):name(_name), Control(-1,anchor,proportion){};
-      void draw(clg::vec4 viewportPresets, ScreenManager* screenManager) const override{
-        screenManager->openScreen(this->name.c_str(), 
-                                (this->anchor.x+viewportPresets.x),
-                                (this->anchor.y+viewportPresets.y),
-                                (this->proportion.x*viewportPresets.z),
-                                (this->proportion.y*viewportPresets.w));
-        screenManager->closeScreen();
-      } ;
+      void draw() const override{} ;
       void addControl(Control* control){};
   };
 

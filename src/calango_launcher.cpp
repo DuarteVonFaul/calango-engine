@@ -13,7 +13,7 @@ namespace clg
       Scene3D* main = new Scene3D(0);
       
       Engine engine = Engine(main);
-      GLFWwindow* window = engine.screenBuilder.createWindow(1280,720,"Game Engine");
+      GLFWwindow* window = engine.wManager.createWindow(1280,720,"Game Engine");
 
 
       Screen* screen = new Screen(vec2(0.0,0.7),vec2(0.25,0.25),"TESTE");
@@ -23,24 +23,11 @@ namespace clg
 
       
       engine.read(window);
-      while(!engine.screenBuilder.getWindowCloseFlag(window))
+      while(!engine.wManager.getWindowCloseFlag(window))
       {
-        engine.screenManager.openRender();
-
-          engine.tick();
-          engine.screenManager.openScreen("Scene",0.0,0.0,0.25,0.5);
-          engine.screenManager.closeScreen();
-
-          engine.screenManager.openScreen("Arquivos",0.0,0.5,0.25,0.5);
-          engine.screenManager.closeScreen();
-
-          engine.screenManager.openScreen("Propriedades",0.75,0.0,0.25,1.0);
-          engine.screenManager.closeScreen();
-
-        engine.screenManager.closeRender();
-        engine.draw.drawScreen(window);
+        engine.tick();
       }
-      engine.screenBuilder.destroyWindow(window);
+      engine.wManager.destroyWindow(window);
 
       return 0;
     }

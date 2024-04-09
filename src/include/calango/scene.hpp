@@ -16,7 +16,7 @@
                 Scene(int _id, std::string _name): id(_id),name(_name), presets(clg::vec4()){};
                 ~Scene();
                 virtual void read() const = 0;
-                virtual void tickControl(clg::vec4 viewportPresets, ScreenManager* screenManager) const = 0;
+                virtual void tickControl() const = 0;
                 virtual void tickEntity() const = 0;
         };
 

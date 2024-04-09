@@ -4,26 +4,24 @@
 namespace clg
 {
   Engine::Engine(Scene* _root): 
-  currentScene(0), 
-  viewportPresets(clg::vec4(0.0,0.0,1.0,1.0)),
-  draw(Draw(1)) 
+  currentScene(0),
+  dManager(DrawManager(1))
   {scenes.push_back(_root);}
 
   Engine::Engine(std::vector<Scene*> _scenes, FLAGS_ENGINE_SCENE _flagsScene): 
   currentScene(0),
-  viewportPresets(clg::vec4(0.0,0.0,1.0,1.0)),
-  draw(Draw(1)),
+  dManager(DrawManager(1)),
   scenes(_scenes),
   flagsScene(_flagsScene){}
 
   void Engine::read(GLFWwindow* window)
   {
-    this->window = window ;
+    this->window->windowContext = window ;
     
-    this->screenBuilder.initOpenGL(window);
-    this->screenManager.initOpenGL(window);
+    this->wManager.initOpenGL(this->window->windowContext);
+    this->window->GuiContext = this->gManager.initOpenGL(this->window->windowContext);
 
-    screenBuilder.clearColorWindow();
+    wManager.clearColorWindow();
 
     this->scenes[this->currentScene]->read();
     
@@ -32,8 +30,8 @@ namespace clg
     };
 
     if(this->flagsScene.INITIALIZED_BY_ENGINE){
-      this->draw.orientationPlane(1);
-      this->viewportPresets = clg::vec4(0.25,0.0,0.5,1.0);
+      this->dManager.orientationPlane(1);
+      this->window->viewportPresets = clg::vec4(0.25,0.0,0.5,1.0);
     };
 
 
@@ -44,23 +42,27 @@ namespace clg
 
   void Engine::tick()
   {
-      this->screenBuilder.updateWindowEvents(window);
+      this->wManager.updateWindowEvents(this->window->windowContext);
     
-      this->screenBuilder.windowProjection(window,clg::vec2(this->viewportPresets.x,
-                                                        this->viewportPresets.y)
-                                             ,clg::vec2(this->viewportPresets.z,
-                                                        this->viewportPresets.w));
-      this->screenBuilder.clearWindow(this->window);                                                 
+      this->wManager.windowProjection(this->window,clg::vec2(this->window->viewportPresets.x,
+                                                        this->window->viewportPresets.y)
+                                             ,clg::vec2(this->window->viewportPresets.z,
+                                                        this->window->viewportPresets.w));
+      this->wManager.clearWindow(this->window->windowContext);                                                 
       
 
-      this->draw.drawIndetity();
+      this->dManager.drawIndetity();
       this->camera->activate();
-      this->draw.newDraw();
-      this->draw.getInstance(1);
-      this->draw.endDraw();
+      this->dManager.newDraw();
+      this->dManager.getInstance(1);
+      this->dManager.endDraw();
 
       this->scenes[this->currentScene]->tickEntity();
-      this->scenes[this->currentScene]->tickControl(this->viewportPresets, &this->screenManager);
+      this->gManager.openRender(this->window->GuiContext);
+      this->window->OnGui(&gManager);
+      this->scenes[this->currentScene]->tickControl();
+      this->gManager.closeRender(this->window->GuiContext);
+      this->dManager.drawScreen(this->window->windowContext);
 
   }
 

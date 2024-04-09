@@ -6,17 +6,17 @@ namespace clg
     //
     // Funções inerentes a Criação e Gerenciamento de Janelas
     //
-    void clg::ScreenBuilder::showMensage(const char* message){
+    void clg::WindowManager::showMensage(const char* message){
         MessageBox(0,message,"Calango Engine - Aviso",0);
     };
 
-    clg::ScreenBuilder::ScreenBuilder(){
+    clg::WindowManager::WindowManager(){
         /* Aqui eu inicializo o framework glfw */
         if (!glfwInit())
             this->showMensage("Erro ao Inicializar GLFW");
     };
     
-    GLFWwindow* clg::ScreenBuilder::createWindow(int width, int height, const char* title){
+    GLFWwindow* clg::WindowManager::createWindow(int width, int height, const char* title){
         /* Aqui eu construo a janela */
         GLFWwindow* window;
         window = glfwCreateWindow(width, height, title, nullptr, nullptr);
@@ -28,12 +28,12 @@ namespace clg
         return window;
     };
     
-    void clg::ScreenBuilder::destroyWindow(GLFWwindow* window){
+    void clg::WindowManager::destroyWindow(GLFWwindow* window){
         glfwDestroyWindow(window);
         glfwTerminate();
     };
 
-    bool clg::ScreenBuilder::initOpenGL(GLFWwindow* window){
+    bool clg::WindowManager::initOpenGL(GLFWwindow* window){
         /* Aqui eu construo o contexto OpenGL e linko com a tela*/
         glfwMakeContextCurrent(window);
         //glEnable(GL_DEPTH_TEST);
@@ -41,37 +41,35 @@ namespace clg
     };
 
     // Função para atualizar eventos da janela GLFW
-    void clg::ScreenBuilder::updateWindowEvents(GLFWwindow* window) {
+    void clg::WindowManager::updateWindowEvents(GLFWwindow* window) {
         glfwPollEvents();
         if(glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS){
             this->clearWindowCloseFlag(window);
         }
     }
 
-    void clg::ScreenBuilder::clearColorWindow(vec4 clear_color){
+    void clg::WindowManager::clearColorWindow(vec4 clear_color){
         glClearColor(clear_color.x, clear_color.y, clear_color.z, clear_color.w);
         // glEnable(GL_DEPTH_TEST);
     }
 
-    void clg::ScreenBuilder::windowProjection(GLFWwindow* window){
-        int width, height;
-        glfwGetFramebufferSize(window, &width, &height);
+    void clg::WindowManager::windowProjection(Window* window){
+        glfwGetFramebufferSize(window->windowContext, &window->width, &window->height);
         //Aqui eu defino o Viewport da tela ou seja a area de Desenho
-        glViewport(0, 0, width, height);
-        float  aspect = (float)(width)/(float)height;//esse aspect é o controle para manter o aspecto das imagens       
+        glViewport(0, 0, window->width, window->height);
+        float  aspect = (float)(window->width)/(float)window->height;//esse aspect é o controle para manter o aspecto das imagens       
         glMatrixMode(GL_PROJECTION);
         glLoadIdentity();
         
         gluPerspective(45.0, aspect, 0.1, 500);
     };
 
-    void clg::ScreenBuilder::windowProjection(GLFWwindow* window, clg::vec2 anchor, clg::vec2 size = clg::vec2())
+    void clg::WindowManager::windowProjection(Window* window, clg::vec2 anchor, clg::vec2 size = clg::vec2())
     {   
         //Aqui eu pego o tamanho da Janela
-        int width, height;
-        glfwGetFramebufferSize(window, &width, &height);
-        glViewport(width * anchor.x, height * anchor.y, width * size.x, height * size.y);
-        float aspect = (float)(width * size.x)/(float)height * size.y;
+        glfwGetFramebufferSize(window->windowContext, &window->width, &window->height);
+        glViewport(window->width * anchor.x, window->height * anchor.y, window->width * size.x, window->height * size.y);
+        float aspect = (float)(window->width * size.x)/(float)window->height * size.y;
         glMatrixMode(GL_PROJECTION);
         glLoadIdentity();
         
@@ -79,15 +77,15 @@ namespace clg
 
     }
     
-    void clg::ScreenBuilder::clearWindow(GLFWwindow* window){
+    void clg::WindowManager::clearWindow(GLFWwindow* window){
         glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
     }
     // Função para obter a flag de fechamento da janela GLFW
-    bool clg::ScreenBuilder::getWindowCloseFlag(GLFWwindow* window) {
+    bool clg::WindowManager::getWindowCloseFlag(GLFWwindow* window) {
         return glfwWindowShouldClose(window);
     }
     // Função para limpar a flag de fechamento da janela GLFW
-    void clg::ScreenBuilder::clearWindowCloseFlag(GLFWwindow* window) {
+    void clg::WindowManager::clearWindowCloseFlag(GLFWwindow* window) {
         glfwSetWindowShouldClose(window, GLFW_TRUE);
     }
 
@@ -95,37 +93,37 @@ namespace clg
     // Funções inerente a desenhar objetos na tela
     //
 
-    void clg::Draw::newDraw(){
+    void clg::DrawManager::newDraw(){
         glPushMatrix();
     }
     
-    void clg::Draw::endDraw(){
+    void clg::DrawManager::endDraw(){
         glPopMatrix();
     }
 
-    clg::Draw::Draw(int amount){
+    clg::DrawManager::DrawManager(int amount){
         this->amount = amount;
         glGenLists(amount);
     }
 
-    void clg::Draw::drawIndetity(){
+    void clg::DrawManager::drawIndetity(){
         glMatrixMode(GL_MODELVIEW);
         glLoadIdentity();
     }
 
-    void clg::Draw::translate(clg::vec3 vector){
+    void clg::DrawManager::translate(clg::vec3 vector){
         glTranslatef(vector.x, vector.y, vector.z);
     }
 
-    void clg::Draw::Rotate(clg::vec4 vector){
+    void clg::DrawManager::Rotate(clg::vec4 vector){
         glRotatef(vector.x,vector.y,vector.z,vector.w);
     }
 
-    void clg::Draw::Scale(clg::vec3 vector){
+    void clg::DrawManager::Scale(clg::vec3 vector){
         glScalef(vector.x,vector.y,vector.z);
     }
 
-    void clg::Draw::Triangle(unsigned int id, clg::vec3 p1,clg::vec3 p2,clg::vec3 p3, clg::color color){
+    void clg::DrawManager::Triangle(unsigned int id, clg::vec3 p1,clg::vec3 p2,clg::vec3 p3, clg::color color){
         glNewList(id,GL_COMPILE);
             glColor3fv(color);
             glBegin(GL_TRIANGLES);
@@ -136,7 +134,7 @@ namespace clg
         glEndList();
     }
 
-    void clg::Draw::Rect(unsigned int id, clg::vec3 p1,clg::vec3 p2,clg::vec3 p3,clg::vec3 p4, clg::color color){
+    void clg::DrawManager::Rect(unsigned int id, clg::vec3 p1,clg::vec3 p2,clg::vec3 p3,clg::vec3 p4, clg::color color){
         glNewList(id,GL_COMPILE);
             glColor3fv(color);
             glBegin(GL_QUADS);
@@ -148,7 +146,7 @@ namespace clg
         glEndList();
     }
 
-    void clg::Draw::Rect(clg::vec3 p1,clg::vec3 p2,clg::vec3 p3,clg::vec3 p4, clg::color color){
+    void clg::DrawManager::Rect(clg::vec3 p1,clg::vec3 p2,clg::vec3 p3,clg::vec3 p4, clg::color color){
         glColor3fv(color);
         glBegin(GL_QUADS);
             glVertex3fv(&p1.x);
@@ -158,7 +156,7 @@ namespace clg
         glEnd();
     }
 
-    void clg::Draw::orientationPlane(unsigned int id, bool _2D ){
+    void clg::DrawManager::orientationPlane(unsigned int id, bool _2D ){
         float L = 500.0;
         float y = -0.5;
 
@@ -192,19 +190,19 @@ namespace clg
         
     }
 
-    void clg::Draw::getInstance(int id){
+    void clg::DrawManager::getInstance(int id){
         glCallList(id);
     }
 
-    void clg::Draw::deleteInstace(int id, int interval){
+    void clg::DrawManager::deleteInstace(int id, int interval){
         glDeleteLists(id,interval);
     }
 
-    void clg::Draw::deleteAllInstances(){
+    void clg::DrawManager::deleteAllInstances(){
         glDeleteLists(1,this->amount);
     }
 
-    void clg::Draw::Cube(unsigned int id, float s){
+    void clg::DrawManager::Cube(unsigned int id, float s){
 
         float d = s/2.0;
 
@@ -230,7 +228,7 @@ namespace clg
 
     }
 
-    void clg::Draw::Sphere(unsigned int id, GLfloat radius, GLuint nStacks, GLuint nSectores, clg::color color, bool X_RAY_MODE){
+    void clg::DrawManager::Sphere(unsigned int id, GLfloat radius, GLuint nStacks, GLuint nSectores, clg::color color, bool X_RAY_MODE){
 
         std::vector<std::vector<GLuint>> indices;
 
@@ -300,12 +298,17 @@ namespace clg
         glEndList();
     }
 
-    void clg::Draw::drawScreen(GLFWwindow* window){
+    void clg::DrawManager::drawScreen(GLFWwindow* window){
         glfwSwapBuffers(window);
     }
 
 
-    ScreenManager::ScreenManager(){
+    //
+    // Funções inerente a GUI da Tela
+    //
+
+
+    GuiManager::GuiManager(){
         #if defined(IMGUI_IMPL_OPENGL_ES2)
             // GL ES 2.0 + GLSL 100
             this->glsl_version = "#version 100";
@@ -331,11 +334,10 @@ namespace clg
 
     };
 
-    void ScreenManager::initOpenGL(GLFWwindow* window){
+    ImGuiContext* GuiManager::initOpenGL(GLFWwindow* window){
         IMGUI_CHECKVERSION();
-        this->igContext = ImGui::CreateContext();
-        this->window = window;
-        ImGui::SetCurrentContext(this->igContext);
+        ImGuiContext* igContext = ImGui::CreateContext();
+        ImGui::SetCurrentContext(igContext);
         ImGuiIO& io = ImGui::GetIO(); (void)io;
         io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
         io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
@@ -346,59 +348,61 @@ namespace clg
         //ImGui::StyleColorsLight();
 
         // Setup Platform/Renderer backends
-        ImGui_ImplGlfw_InitForOpenGL(this->window, true);
+        ImGui_ImplGlfw_InitForOpenGL(window, true);
         #ifdef __EMSCRIPTEN__
             ImGui_ImplGlfw_InstallEmscriptenCanvasResizeCallback("#canvas");
         #endif
             ImGui_ImplOpenGL3_Init(this->glsl_version.c_str());
+        
+        return igContext;
     };
-    void ScreenManager::openScreen(const char* title, clg::vec2 pos, clg::vec2 size){
-        ImGui::SetCurrentContext(this->igContext);
+    void GuiManager::openScreen(ImGuiContext* igContext, const char* title, clg::vec2 pos, clg::vec2 size){
+        ImGui::SetCurrentContext(igContext);
         ImGui::SetNextWindowPos(ImVec2(pos.x,pos.y));
 
         ImGui::SetNextWindowSize(ImVec2(size.x,size.y));
         ImGui::Begin(title,nullptr);
     };
 
-    void ScreenManager::openScreen(const char* title, float anchor_x,float anchor_y,float size_x,float size_y){
-        ImGui::SetCurrentContext(this->igContext);
+    void GuiManager::openScreen(ImGuiContext* igContext, GLFWwindow* window, const char* title, float anchor_x,float anchor_y,float size_x,float size_y, ImGuiWindowFlags window_flags){
+        ImGui::SetCurrentContext(igContext);
         int width, height;
-        glfwGetFramebufferSize(this->window, &width, &height);
+        glfwGetFramebufferSize(window, &width, &height);
         ImGui::SetNextWindowPos(ImVec2(anchor_x * width,anchor_y * height));
         ImGui::SetNextWindowSize(ImVec2(size_x * width,size_y * height));
-        ImGui::Begin(title,nullptr);
+        ImGui::Begin(title,nullptr,window_flags);
     }
-    void ScreenManager::closeScreen(){
-        ImGui::SetCurrentContext(this->igContext);
+    void GuiManager::closeScreen(ImGuiContext* igContext){
+        ImGui::SetCurrentContext(igContext);
         ImGui::End();
     };
 
-    void ScreenManager::openRender(){
-        ImGui::SetCurrentContext(this->igContext);
+    void GuiManager::openRender(ImGuiContext* igContext){
+        ImGui::SetCurrentContext(igContext);
         ImGui_ImplOpenGL3_NewFrame();
         ImGui_ImplGlfw_NewFrame();
         ImGui::NewFrame();
     };
-    void ScreenManager::closeRender(){
-        ImGui::SetCurrentContext(this->igContext);
+    void GuiManager::closeRender(ImGuiContext* igContext){
+        ImGui::SetCurrentContext(igContext);
         ImGui::Render();
         ImGui::EndFrame();
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
     };
 
 
-    void ScreenManager::renderButton(clg::vec2 anchor, clg::vec2 size,std::string text,MethodCallback callback)
+    void GuiManager::renderButton(clg::vec2 anchor, clg::vec2 size,std::string text,MethodCallback callback)
     {   
         if(ImGui::Button(text.c_str(), ImVec2(size.x, size.y))){
             callback();
         }
 
     };
-    void ScreenManager::renderLabel(clg::vec2 anchor, clg::vec2 size,std::string text)
+    void GuiManager::renderLabel(clg::vec2 anchor, clg::vec2 size,std::string text)
     {
         ImGui::Text(text.c_str());
     };
-    void ScreenManager::renderTextArea(clg::vec2 anchor, clg::vec2 size,const char textTitle[100], std::string* textBuffer,MethodCallback callback)
+    void GuiManager::renderTextArea(clg::vec2 anchor, clg::vec2 size,const char textTitle[100], std::string* textBuffer,MethodCallback callback)
     {   
         char buffer[2048]; // Tamanho adequado para o buffer
         strncpy(buffer, textBuffer->c_str(), sizeof(buffer)); // Copia o conteúdo da string para o buffer
@@ -406,12 +410,12 @@ namespace clg
         *textBuffer = buffer;
     };
 
-    void ScreenManager::renderCheckBox(clg::vec2 anchor, clg::vec2 size,std::string text, bool*  checkBoxValue)
+    void GuiManager::renderCheckBox(clg::vec2 anchor, clg::vec2 size,std::string text, bool*  checkBoxValue)
         {
             ImGui::Checkbox("Check Box", checkBoxValue);     
         };
 
-    void ScreenManager::renderTree(const char* name,MethodCallback callback)
+    void GuiManager::renderTree(const char* name,MethodCallback callback)
     {
         if (ImGui::TreeNode(name)) {
             callback();
@@ -420,25 +424,25 @@ namespace clg
         
     }
         
-    void ScreenManager::renderSelectable(const char* name, int *current_select, int id)
+    void GuiManager::renderSelectable(const char* name, int *current_select, int id)
     {
         ImGui::Selectable(name, current_select, *current_select == id); 
         
     };
 
-    void ScreenManager::renderSameLine()
+    void GuiManager::renderSameLine()
     {
         ImGui::SameLine();
     };
 
-    void ScreenManager::renderSmallButton(const char* name,MethodCallback callback){
+    void GuiManager::renderSmallButton(const char* name,MethodCallback callback){
         if(ImGui::SmallButton(name)){
             callback();
         }
 
     }
 
-    void ScreenManager::renderMenuBar() {
+    void GuiManager::renderMenuBar() {
     if (ImGui::BeginMainMenuBar()) {
         if (ImGui::BeginMenu("File")) {
             if (ImGui::MenuItem("New")) {
@@ -465,8 +469,17 @@ namespace clg
     }
 }
 
-    //
-    // Funções inerente a GUI da Tela
-    //
+
+// Window
+
+void Window::OnGui(clg::GuiManager* gui){
+    ImGuiWindowFlags window_flags = 0;
+    window_flags |= ImGuiWindowFlags_NoTitleBar;
+    window_flags |= ImGuiWindowFlags_NoBackground;
+    window_flags |= ImGuiWindowFlags_NoCollapse;
+    gui->openScreen(this->GuiContext,this->windowContext,"Testando Tela",0.0,0.0,1.0,1.0,window_flags);
+    gui->closeScreen(this->GuiContext);
+}
+
 
 }
