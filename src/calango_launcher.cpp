@@ -15,7 +15,11 @@ namespace clg
       Engine engine = Engine(main);
       GLFWwindow* window = engine.wManager.createWindow(1280,720,"Game Engine");
 
-      engine.changeScene(0);
+      Button* button = new Button(vec2(20.0,20.0),vec2(40.0,40.0),"click");
+      main->addControl(button);
+
+
+      engine.changeScene(main->getId());
       engine.read(window);
       while(!engine.wManager.getWindowCloseFlag(window))
       {

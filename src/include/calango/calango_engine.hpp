@@ -31,7 +31,7 @@ namespace clg
         proportion(_proportion),
         id(_id){};
 
-        virtual void draw() const = 0 ;
+        virtual void draw(GuiManager* gui) const = 0 ;
 
   };
 
@@ -68,13 +68,14 @@ namespace clg
     private:
       std::vector<Entity*> entitys;
       std::vector<Control*> controls;
-    public:
+      DrawManager* draw;
 
+    public:
       Scene2D(int _id): Scene(_id){};
       ~Scene2D(){};
       void read() const override{};
       void tickControl(GuiManager* gui, Window* window) const override{};
-      void tickEntity(DrawManager* draw) const override{};
+      void tickEntity() const override{};
 
   };
 
@@ -82,30 +83,17 @@ namespace clg
     private:
       std::vector<Entity3D*> entitys;
       std::vector<Control*> controls;
-      GuiManager*  gui;
       DrawManager* draw;
+
     public:
       Scene3D(int _id): Scene(_id){};
       ~Scene3D(){};
       void addControl(Control* control) {
         this->controls.push_back(control);
       }
-      void read() const override{
-      };
-      void tickControl(GuiManager* gui, Window* window) const override{
-        ImGuiWindowFlags window_flags = 0;
-        //window_flags |= ImGuiWindowFlags_NoTitleBar;
-        window_flags |= ImGuiWindowFlags_NoBackground;
-        window_flags |= ImGuiWindowFlags_NoCollapse;
-        gui->openScreen(window->GuiContext,window->windowContext,"Testando Tela",
-                        window->viewportPresets.x,
-                        window->viewportPresets.y,
-                        window->viewportPresets.z,
-                        window->viewportPresets.w,
-                        window_flags);
-        gui->closeScreen(window->GuiContext);
-      };
-      void tickEntity(DrawManager* draw) const override{};
+      void read() const override{};
+      void tickControl(GuiManager* gui, Window* window) const override;
+      void tickEntity() const override;
       
 
   };
@@ -114,15 +102,38 @@ namespace clg
 //Classes do grupo Control [GUI]
 
 
-  class CALANGO_ENGINE_API Screen: public Control{
+  class CALANGO_ENGINE_API Box: public Control{
     private:
       std::string name;
       std::vector<Control*> controls;
     public:
-      Screen(clg::vec2 anchor,clg::vec2 proportion, std::string _name):name(_name), Control(-1,anchor,proportion){};
-      void draw() const override{} ;
+      Box(clg::vec2 anchor,clg::vec2 proportion, std::string _name):name(_name), Control(-1,anchor,proportion){};
+      void draw(GuiManager* gui) const override{} ;
       void addControl(Control* control){};
   };
+
+
+  class CALANGO_ENGINE_API Button: public Control{
+    private:
+      std::string name;
+      MethodCallback callback;
+    public:
+      Button(clg::vec2 anchor,
+             clg::vec2 proportion, 
+             std::string _name, 
+             MethodCallback _callback):
+             name(_name), 
+             Control(-1,anchor,proportion),
+             callback(_callback){};
+      Button(clg::vec2 anchor,
+             clg::vec2 proportion, 
+             std::string _name):
+             name(_name), 
+             Control(-1,anchor,proportion),
+             callback(nullptr){};
+      void draw(GuiManager* gui) const override ;
+  };
+
 
 }
 

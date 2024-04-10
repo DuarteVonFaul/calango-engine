@@ -399,7 +399,7 @@ namespace clg
     void GuiManager::renderButton(clg::vec2 anchor, clg::vec2 size,std::string text,MethodCallback callback)
     {   
         if(ImGui::Button(text.c_str(), ImVec2(size.x, size.y))){
-            callback();
+            if(callback) callback();
         }
 
     };
@@ -477,13 +477,10 @@ namespace clg
 
 // Window
 
-void Window::OnGui(clg::GuiManager* gui){
-    ImGuiWindowFlags window_flags = 0;
-    window_flags |= ImGuiWindowFlags_NoTitleBar;
-    window_flags |= ImGuiWindowFlags_NoBackground;
-    window_flags |= ImGuiWindowFlags_NoCollapse;
-    gui->openScreen(this->GuiContext,this->windowContext,"Testando Tela",0.0,0.0,1.0,1.0,window_flags);
-    gui->closeScreen(this->GuiContext);
+void Window::OnGui(clg::GuiManager* gui)
+{
+
+
 }
 
 
