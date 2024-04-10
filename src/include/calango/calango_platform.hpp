@@ -73,9 +73,14 @@
         ImGuiContext* initOpenGL(GLFWwindow* window);
         void openRender(ImGuiContext* igContext);
         void closeRender(ImGuiContext* igContext);
-        void openScreen(ImGuiContext* igContext,const char* title, clg::vec2 pos, clg::vec2 size);
+        void openScreen(ImGuiContext* igContext,
+                        const char* title, 
+                        clg::vec2 pos, 
+                        clg::vec2 size);
+
         void openScreen(ImGuiContext* igContext, 
-                        GLFWwindow* window, 
+                        int &width,
+                        int &height, 
                         const char* title, 
                         float anchor_x,float anchor_y,
                         float size_x,float size_y, 
